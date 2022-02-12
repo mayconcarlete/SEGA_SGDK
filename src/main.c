@@ -18,7 +18,7 @@ int main(){
 	return 0;
 }
 
-void setUpInit(){
+static void setUpInit(){
 	SYS_disableInts(); // desabilita Interrupt quando acessa a vdp
 	VDP_init(); // inicia Processador de video VDP e estabelece a resolucao de tela 320x224
 	SPR_init();
@@ -27,7 +27,7 @@ void setUpInit(){
 	SYS_enableInts(); // reabilita Interrupts quando finalizar acesso VDP
 }
 
-void joystick(u16 joy, u16 changed, u16 state){
+static void joystick(u16 joy, u16 changed, u16 state){
 	if(joy == JOY_1){
 		if(state & BUTTON_START){
 			VDP_clearTextLine(5); // apagara os texto da linha indicada, se nao colocar podera ocorrer sobreposicao
