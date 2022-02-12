@@ -1,6 +1,6 @@
 #include <genesis.h>
 
-void setUpInit();
+static void setUpInit();
 
 int main(){
 	char textScreen[26] = "Maycon Carlete Hello world";
