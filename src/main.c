@@ -12,7 +12,7 @@ int main(){
 	return 0;
 }
 
-void setUpInit(){
+static void setUpInit(){
 	SYS_disableInts();
 	VDP_init();
 	SPR_init();
