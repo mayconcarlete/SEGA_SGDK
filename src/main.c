@@ -1,14 +1,19 @@
 #include <genesis.h>
+#include <timer.h>
 
 static void setUpInit();
 static void joystick(u16 joy, u16 changed, u16 state);
+static void getInput(u16 joy, u16 changed, u16 state);
 static void setDevHUD();
 static void showFps();
+
 // static void joystick_inside_loop(u16* x, u16* y, int* screenY);
 
 int main(){
 	setUpInit();
-
+	int p1X = 0;
+	int p1Y = 0;
+	int gameStatus = 0;
 	JOY_init();
 	setDevHUD();
 	JOY_setEventHandler(&joystick);
@@ -16,6 +21,7 @@ int main(){
 	while(TRUE){
 		// BMP_showFPS(3);
 		showFps();
+
 		SYS_doVBlankProcess();
 	}
 	return 0;
@@ -116,7 +122,9 @@ static void showFps(){
     VDP_clearText(18, 27, 4);
 		VDP_drawText(str, 18, 27);
 }
-
+static void getInput(int gameStatus){
+	u16 value = JOY_readJoypad(JOY_1);
+}
 // static void joystick_inside_loop(u16* x, u16* y,int* screenY){
 // 	u16 value = JOY_readJoypad(JOY_1);
 // 	VDP_clearTextLine(1);
