@@ -9,6 +9,16 @@ int main(){
 
 	JOY_init();
 	JOY_setEventHandler(&joystick);
+
+	// player 1 status without struct
+	char up = ".";
+	char left = ".";
+	char down = ".";
+	char right = ".";
+	char button_a = ".";
+	char button_b = ".";
+	char button_c = ".";
+
 	u16 x = 0;
 	u16 y = 0;
 	u16* xp = &x;
@@ -19,14 +29,16 @@ int main(){
 	u16 yLimit = 28;
 	int screenY = 0;
 	int* screenYPointer = &screenY;
-	char position[4];
+	char p1PositionY[4];
 		// VDP_clearTextLine(x);
 	while(TRUE){
+		VDP_drawText("P1", 1, 27);
 		// BMP_showFPS(6);
-		sprintf(position, "%d", screenY);
+		sprintf(p1PositionY, "%d", screenY);
 		VDP_clearTextLine(0);
-		VDP_drawText(position, 0, 0);
+		VDP_drawText(p1PositionY, 4 , 27);
 		VDP_drawText(".", x, y);
+
 		joystick_inside_loop(xp, yp, screenYPointer);
 		// VDP_drawText(".", x, y);
 		SYS_doVBlankProcess();
@@ -107,25 +119,45 @@ static void joystick(u16 joy, u16 changed, u16 state){
 static void joystick_inside_loop(u16* x, u16* y,int* screenY){
 	u16 value = JOY_readJoypad(JOY_1);
 	char str[16];
-
-	if(value & BUTTON_UP){
+	int off_set_up_button = 7;
+	if(value & BUTTON_UP && ((*y) > -1)){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", *x, --(*y));
 		--(*screenY);
+		VDP_clearText(off_set_up_button, 27, 1);
+		VDP_drawText("^", off_set_up_button, 27);
+	} else{
+		VDP_clearText(off_set_up_button, 27, 1);
+		VDP_drawText(".", off_set_up_button, 27);
 	}
-	if(value & BUTTON_DOWN){
+	if(value & BUTTON_DOWN && ((*y) > 208)){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", *x, ++(*y));
 		++(*screenY);
+		VDP_clearText(off_set_up_button + 2, 27, 1);
+		VDP_drawText("d", off_set_up_button + 2 , 27);
+	} else {
+		VDP_clearText(off_set_up_button + 2, 27, 1);
+		VDP_drawText(".", off_set_up_button +2 , 27);
 	}
 	if(value & BUTTON_LEFT){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", --(*x), *y);
-
+		VDP_clearText(off_set_up_button + 1, 27, 1);
+		VDP_drawText("<", off_set_up_button +1 , 27);
+	} else {
+		VDP_clearText(off_set_up_button + 1, 27, 1);
+		VDP_drawText(".", off_set_up_button + 1, 27);
 	}
+
 	if(value & BUTTON_RIGHT){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", ++(*x), *y);
+		VDP_clearText(off_set_up_button + 3, 27, 1);
+		VDP_drawText(">", off_set_up_button + 3, 27);
+	} else {
+		VDP_clearText(off_set_up_button + 3, 27, 1);
+		VDP_drawText(".",  off_set_up_button + 3, 27);
 	}
 	if(value & BUTTON_A){
 		VDP_clearTextLine(0);
