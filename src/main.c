@@ -2,7 +2,7 @@
 
 static void setUpInit();
 static void joystick(u16 joy, u16 changed, u16 state);
-static void joystick_inside_loop(u16* x, u16* y);
+static void joystick_inside_loop(u16* x, u16* y, int* screenY);
 
 int main(){
 	setUpInit();
@@ -13,12 +13,21 @@ int main(){
 	u16 y = 0;
 	u16* xp = &x;
 	u16* yp = &y;
-
-
+	u16 xInit = 0;
+	u16 xLimit = 40;
+	u16 yInit = 0;
+	u16 yLimit = 28;
+	int screenY = 0;
+	int* screenYPointer = &screenY;
+	char position[4];
 		// VDP_clearTextLine(x);
 	while(TRUE){
+		// BMP_showFPS(6);
+		sprintf(position, "%d", screenY);
+		VDP_clearTextLine(0);
+		VDP_drawText(position, 0, 0);
 		VDP_drawText(".", x, y);
-		joystick_inside_loop(xp, yp);
+		joystick_inside_loop(xp, yp, screenYPointer);
 		// VDP_drawText(".", x, y);
 		SYS_doVBlankProcess();
 	}
@@ -95,19 +104,24 @@ static void joystick(u16 joy, u16 changed, u16 state){
 	}
 }
 
-static void joystick_inside_loop(u16* x, u16* y){
+static void joystick_inside_loop(u16* x, u16* y,int* screenY){
 	u16 value = JOY_readJoypad(JOY_1);
+	char str[16];
+
 	if(value & BUTTON_UP){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", *x, --(*y));
+		--(*screenY);
 	}
 	if(value & BUTTON_DOWN){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", *x, ++(*y));
+		++(*screenY);
 	}
 	if(value & BUTTON_LEFT){
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", --(*x), *y);
+
 	}
 	if(value & BUTTON_RIGHT){
 		VDP_clearTextLine(*y);
