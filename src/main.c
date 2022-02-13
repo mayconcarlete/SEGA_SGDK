@@ -98,8 +98,6 @@ static void joystick(u16 joy, u16 changed, u16 state){
 static void joystick_inside_loop(u16* x, u16* y){
 	u16 value = JOY_readJoypad(JOY_1);
 	if(value & BUTTON_UP){
-		// VDP_clearTextLine(x);
-		// VDP_drawText("Button up was pressed", 0, 0);
 		VDP_clearTextLine(*y);
 		VDP_drawText(".", *x, --(*y));
 	}
@@ -119,6 +117,4 @@ static void joystick_inside_loop(u16* x, u16* y){
 		VDP_clearTextLine(0);
 		VDP_drawText("Button A was pressed", 0, 0);
 	}
-	// VDP_clearTextLine(0);
-	// VDP_drawText("None button was pressed", 0, 0);
 };
