@@ -122,9 +122,11 @@ static void showFps(){
     VDP_clearText(18, 27, 4);
 		VDP_drawText(str, 18, 27);
 }
+/*
 static void getInput(int gameStatus){
 	u16 value = JOY_readJoypad(JOY_1);
 }
+*/
 // static void joystick_inside_loop(u16* x, u16* y,int* screenY){
 // 	u16 value = JOY_readJoypad(JOY_1);
 // 	VDP_clearTextLine(1);
