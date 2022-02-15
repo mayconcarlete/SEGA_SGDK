@@ -6,22 +6,26 @@ static void joystick(u16 joy, u16 changed, u16 state);
 static void getInput(u16 joy, u16 changed, u16 state);
 static void setDevHUD();
 static void showFps();
-
+static void showPlayer(u16* x, u16* y);
 // static void joystick_inside_loop(u16* x, u16* y, int* screenY);
 
 int main(){
 	setUpInit();
-	int p1X = 0;
-	int p1Y = 0;
+	u16 x=0,y=0;
+	u16* p1X = &x;
+	u16* p1Y = &y;
 	int gameStatus = 0;
 	JOY_init();
 	setDevHUD();
 	JOY_setEventHandler(&joystick);
-
+	char str[16];
 	while(TRUE){
+	 fix16ToStr(*p1X, str, 1);
+	 VDP_clearTextLine(10);
+		VDP_drawText(str, 10, 10);
 		// BMP_showFPS(3);
 		showFps();
-
+		showPlayer(p1X, p1Y);
 		SYS_doVBlankProcess();
 	}
 	return 0;
@@ -122,6 +126,12 @@ static void showFps(){
     VDP_clearText(18, 27, 4);
 		VDP_drawText(str, 18, 27);
 }
+
+static void showPlayer(u16* x, u16* y){
+	VDP_clearText(*x, *y, 1);
+	VDP_drawText(".", *x, *y);
+}
+
 /*
 static void getInput(int gameStatus){
 	u16 value = JOY_readJoypad(JOY_1);
