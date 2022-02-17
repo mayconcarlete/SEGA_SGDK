@@ -7,7 +7,7 @@ static void joystick(u16 joy, u16 changed, u16 state);
 static void setDevHUD(u16 x, u16 y);
 static void showFps();
 static void showPlayer(u16 x, u16 y);
-static int updatePlayer1();
+static void updatePlayer1(u16* x, u16* y);
 
 // static void joystick_inside_loop(u16* x, u16* y, int* screenY);
 
@@ -24,26 +24,21 @@ int main(){
 	while(TRUE){
 		setDevHUD(x, y);
 		showFps();
-		yPosition = updatePlayer1();
-		if(yPosition == 1){
-			y++;
-		}
-		if(yPosition == -1){
-			y--;
-		}
+		VDP_clearTextLine(y);
+		updatePlayer1(&x, &y);
 		showPlayer(x, y);
 		SYS_doVBlankProcess();
 	}
 	return 0;
 }
 
-static int updatePlayer1(){
+static void updatePlayer1(u16* x, u16* y){
 	u16 value = JOY_readJoypad(JOY_1);
 	if(value & BUTTON_UP){
-		return -1;
+		--(*y);
 	}
 	if(value & BUTTON_DOWN){
-		return 1;
+		++(*y);
 	}
 	return 0;
 }
@@ -149,8 +144,8 @@ static void showFps(){
 }
 
 static void showPlayer(u16 x, u16 y){
-	VDP_clearTextLine(y-1);
-	VDP_drawText(".", x, y-1);
+	VDP_clearTextLine(y);
+	VDP_drawText(".", x, y);
 }
 
 /*
