@@ -25,7 +25,7 @@ int main(){
 		setDevHUD(x, y);
 		showFps();
 		VDP_clearTextLine(y);
-		updatePlayer1(&x, &y);
+		// updatePlayer1(&x, &y);
 		showPlayer(x, y);
 		SYS_doVBlankProcess();
 	}
