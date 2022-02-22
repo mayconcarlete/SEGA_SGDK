@@ -35,10 +35,14 @@ int main(){
 static void updatePlayer1(u16* x, u16* y){
 	u16 value = JOY_readJoypad(JOY_1);
 	if(value & BUTTON_UP){
-		--(*y);
+		if((*y) >= 0){
+			--(*y);
+		}
 	}
 	if(value & BUTTON_DOWN){
-		++(*y);
+		if((*y) < 29){
+			++(*y);
+		}
 	}
 }
 
@@ -123,7 +127,7 @@ static void setDevHUD(u16 x, u16 y){
 	}
 	VDP_drawText("X:33", 1, 27);
 	VDP_clearText(8, 27, 2);
-	char str[2];
+	char str[8];
 	fix16ToStr(y, str, 1);
 	VDP_drawText("Y:", 6, 27);
 	VDP_drawText(str, 8, 27);
