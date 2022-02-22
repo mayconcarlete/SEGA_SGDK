@@ -25,7 +25,7 @@ int main(){
 		setDevHUD(x, y);
 		showFps();
 		VDP_clearTextLine(y);
-		// updatePlayer1(&x, &y);
+		updatePlayer1(&x, &y);
 		showPlayer(x, y);
 		SYS_doVBlankProcess();
 	}
@@ -40,7 +40,6 @@ static void updatePlayer1(u16* x, u16* y){
 	if(value & BUTTON_DOWN){
 		++(*y);
 	}
-	return 0;
 }
 
 static void setUpInit(){
@@ -124,7 +123,7 @@ static void setDevHUD(u16 x, u16 y){
 	}
 	VDP_drawText("X:33", 1, 27);
 	VDP_clearText(8, 27, 2);
-	char str[8];
+	char str[2];
 	fix16ToStr(y, str, 1);
 	VDP_drawText("Y:", 6, 27);
 	VDP_drawText(str, 8, 27);
