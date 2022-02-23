@@ -13,7 +13,7 @@ static void updatePlayer1(u16* x, u16* y);
 
 int main(){
 	setUpInit();
-	u16 x=0,y=0;
+	u16 x=10,y=10;
 	u16* p1X = &x;
 	u16* p1Y = &y;
 	int gameStatus = 0;
@@ -25,7 +25,7 @@ int main(){
 		setDevHUD(x, y);
 		showFps();
 		VDP_clearTextLine(y);
-		updatePlayer1(&x, &y);
+		updatePlayer1(p1X, p1Y);
 		showPlayer(x, y);
 		SYS_doVBlankProcess();
 	}
@@ -35,6 +35,9 @@ int main(){
 static void updatePlayer1(u16* x, u16* y){
 	u16 value = JOY_readJoypad(JOY_1);
 	if(value & BUTTON_UP){
+		if((*y)<0){
+			(*y) = 0;
+		}
 		if((*y) >= 0){
 			--(*y);
 		}
